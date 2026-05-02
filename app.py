@@ -32,6 +32,7 @@ from analytics import (
     run_economy_simulation,
     calculate_economy_health
 )
+from scraper import ABTestScraper, get_ab_testing_data
 
 
 # Page configuration
@@ -270,6 +271,23 @@ def module_ab_testing():
     st.markdown('<p class="main-header">🧪 A/B Test Analysis Tool</p>', unsafe_allow_html=True)
     st.markdown("*Demonstrating experimental design, statistical rigor, and data-driven decision making.*")
     
+    # Fetch real scraped data about A/B testing history and terminology
+    with st.spinner("📡 Fetching real-time A/B testing data..."):
+        try:
+            ab_scraped_data = get_ab_testing_data()
+            data_freshness = "Real-time" if ab_scraped_data["overview"]["status"] == "success" else "Cached/Fallback"
+        except Exception as e:
+            ab_scraped_data = None
+            data_freshness = "Unavailable"
+    
+    # Display scraped data info banner
+    if ab_scraped_data:
+        st.info(f"""
+        📚 **Data Source:** {ab_scraped_data["overview"]["source"]} | 
+        ⏰ **Freshness:** {data_freshness} | 
+        📊 **Case Studies:** {ab_scraped_data["summary"]["total_case_studies"]} | 
+        📖 **Terms Defined:** {ab_scraped_data["summary"]["total_terms_defined"]}
+        """)
     # Load A/B test data
     ab_data = load_ab_data()
     
@@ -509,6 +527,63 @@ def module_ab_testing():
         })
         st.dataframe(summary_table, hide_index=True, use_container_width=True)
 
+
+    st.divider()
+    
+    # A/B Testing History and Terminology from Real Data
+    st.subheader("📚 Controlled Experiments: History & Terminology")
+    
+    if ab_scraped_data:
+        # Display timeline
+        st.markdown("**Historical Timeline of Controlled Experiments**")
+        timeline_df = pd.DataFrame(ab_scraped_data["timeline"])
+        
+        # Create a timeline visualization
+        fig = px.scatter(
+            timeline_df,
+            x="year",
+            y=[1] * len(timeline_df),
+            text=timeline_df["event"],
+            size=[10] * len(timeline_df),
+            hover_data=["description", "significance"],
+            title="Key Milestones in Controlled Experiments History",
+            labels={"year": "Year", "text": "Event"}
+        )
+        fig.update_layout(
+            height=300,
+            yaxis=dict(showticklabels=False, showgrid=False),
+            xaxis=dict(type="linear", range=[1740, 2030])
+        )
+        fig.update_traces(textposition="top center", marker=dict(color="#1f77b4"))
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Display terminology accordion
+        with st.expander("📖 A/B Testing Terminology (Click to expand)"):
+            st.markdown("""
+            > **Note:** Use the terms *controlled experiments* and *A/B tests* interchangeably, regardless of the number of variants.
+            """)
+            for term, definition in ab_scraped_data["terminology"].items():
+                st.markdown(f"**{term}**: {definition}")
+        
+        # Display case studies
+        st.markdown("**Real-World A/B Test Case Studies**")
+        cs_df = pd.DataFrame(ab_scraped_data["case_studies"])
+        for idx, row in cs_df.iterrows():
+            with st.container():
+                st.markdown(f"""### {row['company']}: {row['experiment']} ({row['year']})
+                
+
+{row['description']}
+
+
+                **Metric:** {row['metric']} | **Impact:** {row['impact']} | **Variants:** {row['variants']}
+                
+
+_Source: {row['source']}_
+                """)
+                st.divider()
+    else:
+        st.warning("Could not load real-time A/B testing history data. Showing cached information.")
 
 def module_economy_balancer():
     """Render the Economy Balancer Simulator module."""
