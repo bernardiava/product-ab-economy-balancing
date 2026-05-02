@@ -1,37 +1,79 @@
 ```
+# Dependencies
+*.whl
+*.egg-info/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
 # Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Dependencies
-.venv/
+# Virtual environments
 venv/
 env/
+ENV/
+.venv/
+.env/
+.envs/
 
-# Logs
-*.log
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*.tmp
 
-# Build artifacts
-dist/
-build/
-target/
-*.o
-*.obj
-*.so
-*.dll
-*.exe
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# Environment variables
+.env
+.env.local
+*.env.*
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# PyTest
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*~
+```
+
+Wait, I need to reconsider this. The only modified file is `requirements.txt`, which is a source/config file. There are no build artifacts, dependencies, or temp files in the changes provided. According to rule 6, if the change list contains ONLY source or config files and NO build artifacts, dependencies, or temp files, I should output an EMPTY .gitignore.
+
+```
+
 ```
