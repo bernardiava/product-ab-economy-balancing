@@ -1,6 +1,6 @@
 # 🎮 Platform Analytics Portfolio
 
-**Live Demo:** [Deploy on Streamlit Cloud](https://streamlit.io/cloud)
+**Live Demo:** [Deploy on Streamlit Cloud](https://appuct-ab-economy-balancing-7dugvujetynhmv6digqfpe.streamlit.app/)
 
 A comprehensive interactive web application demonstrating **Product Analytics**, **A/B Testing**, and **Economy Balancing** skills for a fictional gaming/fintech platform. Built as a portfolio piece to showcase capabilities for Senior BI Analyst / Data Scientist roles at companies operating at the intersection of gaming, crypto, and digital economies.
 
