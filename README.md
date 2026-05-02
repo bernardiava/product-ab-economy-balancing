@@ -177,4 +177,4 @@ GitHub: [@bernardiava](https://github.com/bernardiava)
 
 ---
 
-*Built with ❤️ using Streamlit | Portfolio Project 2024*
+*Built with ❤️ using Streamlit | Portfolio Project 2026*
